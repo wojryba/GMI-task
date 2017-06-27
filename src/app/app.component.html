@@ -1,3 +1,65 @@
-<h1>
-  {{title}}
-</h1>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand">New Your Times Most Popular Articles</a>
+    </div>
+
+    <div>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a class="dropdown-header" (click)="dropdownChange()">Filter by date <span class="caret"></span></a>
+            <div class="dropdown-content" *ngIf="dropdown" [@enter]>
+              <h5>From:</h5>
+              <button class="btn btn-info dropdown-date" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+              {{startDate | date: 'dd/MM/yyyy'}}
+              </button>
+              <div class="collapse" id="collapseExample">
+                <div class="well">
+                  <datepicker [(ngModel)]="startDate" [minDate]="minDate" [maxDate]="endDate" [showWeeks]="true"></datepicker>
+                </div>
+              </div>
+
+              <h5>To:</h5>
+              <button class="btn btn-info dropdown-date" type="button" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+              {{endDate | date: 'dd/MM/yyyy'}}
+              </button>
+              <div class="collapse" id="collapse2">
+                <div class="well">
+                  <datepicker [(ngModel)]="endDate" [minDate]="startDate" [maxDate]="maxDate" [showWeeks]="true"></datepicker>
+                </div>
+              </div>
+              <div class="dropdown-buttons">
+                <a class="btn btn-primary" (click)="filterArticles()">Filter!</a>
+                <a class="btn btn-danger" (click)="dropdownChange()">X</a>
+              </div>
+            </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div *ngIf="error" class="noArticles"><h1>There was an api error! Check the console!</h1></div>
+
+<main class="articles-display" *ngIf="articles.length > 1 else noArticles">
+  <div class="panel panel-primary" *ngFor="let article of articles" [@enter]>
+    <div class="panel-body">
+      <h3 class="panel-title">{{article.title}}</h3>
+      <img class="panel-img" [src]="article.media[0]['media-metadata'][0].url" *ngIf="article.media[0] else imgPlaceholder"/>
+      <ng-template #imgPlaceholder><img class="panel-img" src="../assets/placeholder.png" /></ng-template>
+      <div class="panel-content">
+        {{article.abstract}}
+      </div>
+    </div>
+    <div class="panel-footer">
+      <a href="{{article.short_url}}">Open Article</a>
+    </div>
+  </div>
+  <ng-template #noArticles><div class="noArticles" [@enter]><h1>There are no Articles!</h1></div></ng-template>
+</main>
+
+
+
+<footer class="footer">
+  <h3>Recruitment task for GMI Group - Software House</h3>
+</footer>

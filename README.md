@@ -1,3 +1,8 @@
+# TO Run - as required.
+ This app was build with angular-cli. It would be best if you would install it globally.
+
+ To run the app: first 'npm install'. Then ng serve.
+
 # GMITask
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0.
